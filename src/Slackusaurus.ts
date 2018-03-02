@@ -2,10 +2,10 @@ import * as util from 'util';
 // import * as request from 'request';
 let request = require('request');
 export class Slackusaurus {
-    private static findWords(input: string): Array<String> {
+    private static findWords(input: string): Array<string> {
         let matches = input.match(/\[[^\]]*\]/g);
 
-        let words: Array<String> = [];
+        let words: Array<string> = [];
 
         matches.forEach(word => {
             word = word.replace('[', '');
@@ -39,10 +39,20 @@ export class Slackusaurus {
         return synonyms[ Math.floor( Math.random() * synonyms.length ) ];
     }
     static async makeSmart(req, res) {
-        const text = req.body.text;
+        let text: string = req.body.text;
         const words = Slackusaurus.findWords(text);
-        const synonyms = await Promise.all(words.map(Slackusaurus.getSyn));
-        console.log(synonyms);
-        return { sup: synonyms };
+        // const synonyms = await Promise.all(words.map(Slackusaurus.getSyn));
+        // console.log(synonyms);
+        if ( words && words.length > 0 ){
+            for (let word of words) {
+                let syn = await Slackusaurus.getSyn(word);
+                let searchTerm = '['+word+']';
+                text = text.replace(searchTerm, syn);
+            }
+            return { "response_type": "in_channel",  "text": text};
+        }
+        else {
+            return {"response_type": "ephemeral", "text": 'It already sounds as smart as possible!'}
+        }
     }
 }
