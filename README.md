@@ -1,0 +1,2 @@
+# slackusaurus
+thesaurus for slack
