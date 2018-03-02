@@ -8,7 +8,8 @@
         "compile:ts": "./node_modules/typescript/bin/tsc"
     },
     "dependencies": {
-        "restify": "5.2.0"
+        "restify": "5.2.0",
+        "request": "2.83.0"
     },
     "devDependencies": {
         "@types/restify": "*",
