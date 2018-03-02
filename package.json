@@ -5,6 +5,7 @@
         "node": ">=8.2.1"
     },
     "scripts": {
+        "run": "node ./src/index.js",
         "compile:ts": "./node_modules/typescript/bin/tsc"
     },
     "dependencies": {
