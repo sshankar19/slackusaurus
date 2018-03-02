@@ -11,7 +11,6 @@ interface Config {
     name: string;
     port: number;
     env: string;
-    db: string;
     debug: boolean;
     version: string;
 }
@@ -26,20 +25,7 @@ const config = {
     debug: process.env.DEBUG || true,
     root: path.join(__dirname, '/'),
     port: 8888,
-    db: 'mongodb://localhost:27017/dev',
     version: '1.0.0',
 };
-
-// test environment settings
-if (env === 'test') {
-    config.db = 'mongodb://localhost:27017/test';
-}
-
-// production environment settings
-if (env === 'production') {
-    config.port = 8822;
-    config.db = 'mongodb://localhost:27017/prod';
-    config.debug = false;
-}
 
 export { config };
