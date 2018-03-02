@@ -1,0 +1,27 @@
+{
+    "include": [
+        "./src/**/*"
+    ],
+    "compilerOptions": {
+        "outDir": "./dist-server",
+        "module": "ES6",
+        "moduleResolution": "node",
+        "target": "es2016",
+        "lib": [
+            "dom",
+            "es7",
+            "es2015.promise"
+        ],
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "paths": {
+            "*": ["*"]
+        },
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": strue
+    }
+}
