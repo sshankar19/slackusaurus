@@ -5,7 +5,8 @@ export class Slackusaurus {
         let match = input.match(pattern) as Array<string>;
 
     }
-    static async makeSmart(blah, blah2) {
-        return {lol: 'sup'};
+    static async makeSmart(req, res) {
+        console.log(req);
+        return {sup: 'blah'};
     }
 }
