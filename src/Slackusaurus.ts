@@ -34,10 +34,15 @@ export class Slackusaurus {
         return synonyms[ Math.floor( Math.random() * synonyms.length ) ];
     }
     static async makeSmart(req, res) {
-        const text = req.body.text;
+        let text: string = req.body.text;
         const words = Slackusaurus.findWords(text);
-        const synonyms = words.map(Slackusaurus.getSyn);
-        console.log(synonyms);
-        return { sup: synonyms };
+
+        for (let word of words) {
+            let syn = await Slackusaurus.getSyn(word);
+            let searchTerm = '['+word+']';
+            text = text.replace(searchTerm, syn);
+        }
+        
+        return { "response_type": "in_channel",  "text": text};
     }
 }
