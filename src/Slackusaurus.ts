@@ -36,13 +36,17 @@ export class Slackusaurus {
     static async makeSmart(req, res) {
         let text: string = req.body.text;
         const words = Slackusaurus.findWords(text);
-
-        for (let word of words) {
-            let syn = await Slackusaurus.getSyn(word);
-            let searchTerm = '['+word+']';
-            text = text.replace(searchTerm, syn);
+        if(words && words.length>0){
+            for (let word of words) {
+                let syn = await Slackusaurus.getSyn(word);
+                let searchTerm = '['+word+']';
+                text = text.replace(searchTerm, syn);
+            }
+            
+            return { "response_type": "in_channel",  "text": text};
         }
-        
-        return { "response_type": "in_channel",  "text": text};
+        else{
+            return {"response_type": "ephemeral", "text": 'It already sounds as smart as possible!'}
+        }
     }
 }
