@@ -24,7 +24,8 @@ export class Slackusaurus {
         });
         return syns[Math.floor(Math.random()*syns.length)];
     }
-    static async makeSmart(blah, blah2) {
-        return {lol: 'sup'};
+    static async makeSmart(req, res) {
+        console.log(req);
+        return {sup: 'blah'};
     }
 }
