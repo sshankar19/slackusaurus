@@ -1,19 +1,19 @@
 {
     "name": "slackusaurus",
-    "subdomain": "slackusaurus",
     "version": "0.0.1",
     "engines": {
         "node": ">=8.2.1"
     },
     "scripts": {
-      "compile:ts": "./node_modules/typescript/bin/tsc",
+        "compile:ts": "./node_modules/typescript/bin/tsc"
     },
     "dependencies": {
-
+        "restify": "5.2.0"
     },
     "devDependencies": {
-      "@types/node": "*",
-      "typescript": "2.7.2"
+        "@types/restify": "*",
+        "@types/node": "*",
+        "typescript": "2.7.2"
     },
     "bundledDependencies": []
-  }
+}
