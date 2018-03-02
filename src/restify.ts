@@ -2,10 +2,8 @@
 import * as fs from 'fs';
 import * as restify from 'restify';
 import * as path from 'path';
-import { config } from './config';
-
-// path to route handlers
-const pathToRoutes: string = path.join(config.root, '/app/routes');
+let config = require('./config.json');
+import { Slackusaurus } from './Slackusaurus';
 
 // create Restify server 
 const server: restify.Server = restify.createServer({
@@ -29,18 +27,18 @@ server.use((req: any, res: any, next: any) => {
   return next();
 });
 
-// route handlers
-fs.readdir(pathToRoutes, (err: any, files: string[]) => {
-  if (err) {
-    throw new Error(err);
-  } else {
-    files
-      .filter((file: string) => path.extname(file) === '.js')
-      .forEach((file: string) => {
-        const route = require(path.join(pathToRoutes, file));
-        route.default(server);
-      });
-  }
-});
+server.post('/', (req, res, next) => handleMessage(req, res, Slackusaurus.makeSmart, next));
+
+
+async function handleMessage(req, res, handler: (req, res) => Promise<any>, next?) {
+    try {
+        let payload = await handler(req, res);
+        return res.send(200, payload);
+    }
+    catch (error) {
+        this.log.error({ req: req, err: error });
+        return res.send(500, error.message);
+    }
+}
 
 export { server };

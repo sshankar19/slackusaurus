@@ -1,5 +1,4 @@
-
-export class Slackusaurus{
+export class Slackusaurus {
 
     private findWord(input: string): Array<string>{
         let pattern = new RegExp("(\[\[.+?\]\])");
@@ -24,5 +23,8 @@ export class Slackusaurus{
             });
         });
         return syns[Math.floor(Math.random()*syns.length)];
+    }
+    static async makeSmart(blah, blah2) {
+        return {lol: 'sup'};
     }
 }
