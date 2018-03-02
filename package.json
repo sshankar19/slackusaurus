@@ -15,6 +15,7 @@
     "devDependencies": {
         "@types/restify": "*",
         "@types/node": "*",
+        "@types/request": "*",
         "typescript": "2.7.2"
     },
     "bundledDependencies": []

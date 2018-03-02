@@ -1,9 +1,10 @@
+import * as util from 'util';
+import * as request from 'request';
 export class Slackusaurus {
+    private static findWords(input: string): Array<string> {
+        let matches = input.match(/\[[^\]]*\]/g);
 
-    private findWord(input: string): Array<string>{
-        let pattern = new RegExp("(\[\[.+?\]\])");
-        let matches = input.match(pattern) as Array<string>;
-        matches.forEach(word=> {
+        matches.forEach(word => {
             word.replace('[', '');
             word.replace(']', '');
         })
@@ -11,21 +12,32 @@ export class Slackusaurus {
         return matches;
     }
 
-    private getSyn(word: string): string{
-        let request = require('request');
-        let syns = [];
-        request.get('http://words.bighugelabs.com/api/2/cc6b00dacc0971f09759ac9e1acbf530/'+ word + '/')
-        .on('response', function(response) {
-            Object.keys(response).forEach((key,index) => {
-                if(response[key].syn){
-                    syns = syns.concat(response[key].syn);
+    private static async getSyn(word: string): Promise<string> {
+        let synonyms = [];
+        const getAsync = util.promisify(request.get);
+        try {
+            const body = 
+                await getAsync({url: 'http://words.bighugelabs.com/api/2/cc6b00dacc0971f09759ac9e1acbf530/' + word + '/json'}, (response) => response.body);
+                        
+            Object.keys(body).forEach((pos, index) => {
+                let posSyns = body[pos].syn;
+
+                if (posSyns) {
+                    synonyms = synonyms.concat(posSyns);
                 }
             });
-        });
-        return syns[Math.floor(Math.random()*syns.length)];
+        }
+        catch(e) {
+            console.log(e);
+        }
+            
+        return synonyms[ Math.floor( Math.random() * synonyms.length ) ];
     }
     static async makeSmart(req, res) {
-        console.log(req);
-        return {sup: 'blah'};
+        const text = req.body.text;
+        const words = Slackusaurus.findWords(text);
+        const synonyms = words.map(Slackusaurus.getSyn);
+        console.log(synonyms);
+        return { sup: synonyms };
     }
 }

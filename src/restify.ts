@@ -37,7 +37,7 @@ async function handleMessage(req, res, handler: (req, res) => Promise<any>, next
     }
     catch (error) {
         console.log(error);
-        return res.send(500, error.message);
+        return res.send(500, error);
     }
 }
 
