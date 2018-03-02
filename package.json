@@ -5,8 +5,8 @@
         "node": ">=8.2.1"
     },
     "scripts": {
-        "run": "node ./src/index.js",
-        "compile:ts": "./node_modules/typescript/bin/tsc"
+        "run": "node ./dist-server/index.js",
+        "compile:ts": "./node_modules/typescript/bin/tsc && cp ./src/config.json ./dist-server/"
     },
     "dependencies": {
         "restify": "5.2.0"
